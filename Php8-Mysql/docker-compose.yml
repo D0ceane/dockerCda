@@ -1,4 +1,5 @@
 version: '3.8'
+
 services:
     mysql:
         image: 'mysql:8.0'
@@ -28,17 +29,19 @@ services:
         volumes:
             - '.:/app'
             - './phpdocker/php-fpm/php-ini-overrides.ini:/etc/php/8.1/fpm/conf.d/99-overrides.ini'
-    app_node:
-        image: sportacus_node
-        build: ./reactdocker
+
+    expo: 
+        container_name: expo-container
+        build: ./sportacus
         ports:
-            - 19000:19000
+            - 19000:19000 
             - 19001:19001
             - 19002:19002
             - 19006:19006
+        volumes:
+            - ./sportacus/:/usr/sportacus
+            - ./sportacus:/node_modules
         environment:
             - NODE_ENV=dev
             - EXPO_DEVTOLLS_LISTEN_ADRESS=0.0.0.0
-            - REACT_NATIVE_PACKAGER_HOSTNAME=YOUR IP
-        volumes:
-            - ./sportacus:/app_node/
+            - REACT_NATIVE_PACKAGER_HOSTNAME=192.168.0.30
